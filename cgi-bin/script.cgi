@@ -93,6 +93,7 @@ BEGIN {
     for(n in cgidat){
         if(cgidat[n] != "") {
             # print cgidat[n]
+            sub(cgidat[n], "+", "-")
             playercount++
         }
     }
