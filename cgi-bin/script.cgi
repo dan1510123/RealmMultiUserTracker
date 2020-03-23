@@ -17,6 +17,7 @@ BEGIN {
 
     # There will be a matches array with format:
     ## [[damage_taken, damage, assists, kills, match_id], [info for next match]]
+    MATCH_DATETIME = 6
     MATCH_ID = 5
     KILLS = 4
     ASSISTS = 3
@@ -46,7 +47,15 @@ BEGIN {
                 matches[match_number] = $0
                 match_index++
             }
-            else if(match($0, /kills/) && match_collect == 1 && match_index == 1) {
+            else if(match($0, /match_datetime/) && match_collect == 1 && match_index == 1) {
+                gsub(/ /, "")
+                gsub(/\n/, "")
+                gsub(/"match_datetime":/, "")
+                gsub(/,/, "")
+                matches[match_number] = "" + matches[match_number] "," $0
+                match_index++
+            }
+            else if(match($0, /kills/) && match_collect == 1 && match_index == 2) {
                 gsub(/ /, "")
                 gsub(/\n/, "")
                 gsub(/"kills":/, "")
@@ -54,7 +63,7 @@ BEGIN {
                 matches[match_number] = "" + $0 "," matches[match_number]
                 match_index++
             }
-            else if(match($0, /assists/) && match_collect == 1 && match_index == 2) {
+            else if(match($0, /assists/) && match_collect == 1 && match_index == 3) {
                 gsub(/ /, "")
                 gsub(/\n/, "")
                 gsub(/"assists":/, "")
@@ -62,7 +71,7 @@ BEGIN {
                 matches[match_number] = "" + $0 "," matches[match_number]
                 match_index++
             }
-            else if(match($0, /deaths/) && match_collect == 1 && match_index == 3) {
+            else if(match($0, /deaths/) && match_collect == 1 && match_index == 4) {
                 gsub(/ /, "")
                 gsub(/\n/, "")
                 gsub(/"deaths":/, "")
@@ -70,7 +79,7 @@ BEGIN {
                 matches[match_number] = "" + $0 "," matches[match_number]
                 match_index++
             }
-            else if(match($0, /damage/) && match_collect == 1 && match_index == 4) {
+            else if(match($0, /damage/) && match_collect == 1 && match_index == 5) {
                 gsub(/ /, "")
                 gsub(/\n/, "")
                 gsub(/"damage":/, "")
@@ -78,7 +87,7 @@ BEGIN {
                 matches[match_number] = "" + $0 "," matches[match_number]
                 match_index++
             }
-            else if(match($0, /damage_taken/) && match_collect == 1 && match_index == 5) {
+            else if(match($0, /damage_taken/) && match_collect == 1 && match_index == 6) {
                 gsub(/ /, "")
                 gsub(/\n/, "")
                 gsub(/"damage_taken":/, "")
@@ -95,7 +104,6 @@ BEGIN {
         
         for(m = 0; m < match_number; m++) {
             print matches[m]
-            print "Match"
         }
         print "Player"
     }
