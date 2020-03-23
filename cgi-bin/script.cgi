@@ -1,6 +1,6 @@
 #! /usr/bin/awk -f
 BEGIN {
-    #Print header and in-line css to begin html file
+    #Print header and in-line css and js to begin html file
     print "Content-type: text/html\n"
     print "<html>\n\
     <head>\n\
@@ -68,6 +68,16 @@ BEGIN {
             }\n\
             tr:hover {background-color: #666666;}\n\
         </style>\n\
+        <script>\n\
+            document.addEventListener(\"DOMContentLoaded\", () => {\n\
+                const rows = document.querySelectorAll(\"tr[data-href]\");\n\
+                rows.forEach(row =>{\n\
+                    row.addEventListener(\"click\", () => {\n\
+                    window.location.href = row.dataset.href;\n\
+                    });\n\
+                });\n\
+            });\n\
+        </script>\n\
     </head>\n\
     <body>\n\
         <div class=\"fullContainer\">\n\
@@ -90,12 +100,12 @@ BEGIN {
 
     # There will be a matches array with format:
     ## [[damage_taken, damage, assists, kills, match_id], [info for next match]]
-    MATCH_ID = 5
-    KILLS = 4
-    ASSISTS = 3
-    DEATHS = 2
-    PLACEMENT = 1
-    DAMAGE = 0
+    MATCH_ID = 6
+    KILLS = 5
+    ASSISTS = 4
+    DEATHS = 3
+    PLACEMENT = 2
+    DAMAGE = 1
 
     #getData for each person
     for (i = 0; i < playercount; i++){
@@ -166,6 +176,7 @@ BEGIN {
         }
         close(rawData)
         
+        # Start the player's table and add their username
         print "                    <div class=\"playerOutput\">\n\
                         <div class=\"playerName\">\n\
                             " cgidat[i] "\n\
@@ -177,37 +188,25 @@ BEGIN {
                                 <th>K</th>\n\
                                 <th>A</th>\n\
                             </tr>\n"
+
+        # Go through each match of the player
         for(m = 0; m < match_number; m++) {
-            # print matches[m]
+            split(matches[m], match_stats, ",")
+            # Get match link
+            print "                            <tr data-href=\"https://realmtracker.com/match/pc/" ""+match_stats[MATCH_ID] "\">\n"
+            # Get Place, Damage, Kills, and Assists
+            print "                                <td>" match_stats[PLACEMENT] "</td>\n"
+            print "                                <td>" match_stats[DAMAGE] "</td>\n"
+            print "                                <td>" match_stats[KILLS] "</td>\n"
+            print "                                <td>" match_stats[ASSISTS] "</td>\n"
+            print "                            </tr>\n"
         }
-        # print "Player"
+
+        # End the table
+        print "                        </table>\n\
+                    </div>\n"
     }
-    print "                            <tr data-href=\"https://realmtracker.com/match/pc/34311686\">\
-                                <td>1000</td>\
-                                <td>2</td>\
-                                <td>11</td>\
-                                <td>4</td>\
-                            </tr>\
-                            <tr data-href=\"https://realmtracker.com/match/pc/34311686\">\
-                                <td>866</td>\
-                                <td>542</td>\
-                                <td>2</td>\
-                                <td>5</td>\
-                            </tr>\
-                            <tr data-href=\"https://realmtracker.com/match/pc/34311686\">\
-                                <td>643</td>\
-                                <td>86436</td\>\
-                                <td>4</td>\
-                                <td>10</td>\
-                            </tr>\
-                            <tr data-href=\"https://realmtracker.com/match/pc/34311686\">\
-                                <td>754</td>\
-                                <td>65473</td\>\
-                                <td>2</td>\
-                                <td>8</td>\
-                            </tr>\
-                        </table>\
-                    </div>"
+
     print "                </div>\n\
             </div>\n\
         </div>\n\
