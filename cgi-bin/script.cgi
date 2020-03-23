@@ -1,5 +1,6 @@
 #! /usr/bin/awk -f
 BEGIN {
+    #Print header and in-line css to begin html file
     print "Content-type: text/html\n"
     print "<html>\n\
     <head>\n\
@@ -71,44 +72,9 @@ BEGIN {
     <body>\n\
         <div class=\"fullContainer\">\n\
             <div id=\"title\">Realms Multi-User Tracker</div>\n\
-            <div class=\"resultsContainer\">\n\
-            <div class=\"playerOutput\">\
-                    <div class=\"playerName\">\
-                        Player1\
-                    </div>\
-                    <table class=\"matchesTable\">\
-                        <tr class=\"noPointer\">\
-                            <th>Place</th>\
-                            <th>DMG</th>\
-                            <th>K</th>\
-                            <th>A</th>\
-                        </tr>\
-                        <tr data-href=\"https://realmtracker.com/match/pc/34311686\">\
-                            <td>1000</td>\
-                            <td>2</td>\
-                            <td>11</td>\
-                            <td>4</td>\
-                        </tr>\
-                        <tr data-href=\"https://realmtracker.com/match/pc/34311686\">\
-                            <td>866</td>\
-                            <td>542</td>\
-                            <td>2</td>\
-                            <td>5</td>\
-                        </tr>\
-                        <tr data-href=\"https://realmtracker.com/match/pc/34311686\">\
-                            <td>643</td>\
-                            <td>86436</td\>\
-                            <td>4</td>\
-                            <td>10</td>\
-                        </tr>\
-                        <tr data-href=\"https://realmtracker.com/match/pc/34311686\">\
-                            <td>754</td>\
-                            <td>65473</td\>\
-                            <td>2</td>\
-                            <td>8</td>\
-                        </tr>\
-                    </table>\
-                </div>"
+                <div class=\"resultsContainer\">\n"
+
+    
 
     #get usernames
     playercount = 0
@@ -124,13 +90,12 @@ BEGIN {
 
     # There will be a matches array with format:
     ## [[damage_taken, damage, assists, kills, match_id], [info for next match]]
-    MATCH_DATETIME = 6
     MATCH_ID = 5
     KILLS = 4
     ASSISTS = 3
     DEATHS = 2
-    DAMAGE = 1
-    DAMAGE_TAKEN = 0
+    PLACEMENT = 1
+    DAMAGE = 0
 
     #getData for each person
     for (i = 0; i < playercount; i++){
@@ -154,15 +119,7 @@ BEGIN {
                 matches[match_number] = $0
                 match_index++
             }
-            else if(match($0, /match_datetime/) && match_collect == 1 && match_index == 1) {
-                gsub(/ /, "")
-                gsub(/\n/, "")
-                gsub(/"match_datetime":/, "")
-                gsub(/,/, "")
-                matches[match_number] = "" + matches[match_number] "," $0
-                match_index++
-            }
-            else if(match($0, /kills/) && match_collect == 1 && match_index == 2) {
+            else if(match($0, /kills/) && match_collect == 1 && match_index == 1) {
                 gsub(/ /, "")
                 gsub(/\n/, "")
                 gsub(/"kills":/, "")
@@ -170,7 +127,7 @@ BEGIN {
                 matches[match_number] = "" + $0 "," matches[match_number]
                 match_index++
             }
-            else if(match($0, /assists/) && match_collect == 1 && match_index == 3) {
+            else if(match($0, /assists/) && match_collect == 1 && match_index == 2) {
                 gsub(/ /, "")
                 gsub(/\n/, "")
                 gsub(/"assists":/, "")
@@ -178,10 +135,18 @@ BEGIN {
                 matches[match_number] = "" + $0 "," matches[match_number]
                 match_index++
             }
-            else if(match($0, /deaths/) && match_collect == 1 && match_index == 4) {
+            else if(match($0, /deaths/) && match_collect == 1 && match_index == 3) {
                 gsub(/ /, "")
                 gsub(/\n/, "")
                 gsub(/"deaths":/, "")
+                gsub(/,/, "")
+                matches[match_number] = "" + $0 "," matches[match_number]
+                match_index++
+            }
+            else if(match($0, /placement/) && match_collect == 1 && match_index == 4) {
+                gsub(/ /, "")
+                gsub(/\n/, "")
+                gsub(/"placement":/, "")
                 gsub(/,/, "")
                 matches[match_number] = "" + $0 "," matches[match_number]
                 match_index++
@@ -190,14 +155,6 @@ BEGIN {
                 gsub(/ /, "")
                 gsub(/\n/, "")
                 gsub(/"damage":/, "")
-                gsub(/,/, "")
-                matches[match_number] = "" + $0 "," matches[match_number]
-                match_index++
-            }
-            else if(match($0, /damage_taken/) && match_collect == 1 && match_index == 6) {
-                gsub(/ /, "")
-                gsub(/\n/, "")
-                gsub(/"damage_taken":/, "")
                 gsub(/,/, "")
                 matches[match_number] = "" + $0 "," matches[match_number]
                 match_index = 0
@@ -209,13 +166,50 @@ BEGIN {
         }
         close(rawData)
         
+        print "                    <div class=\"playerOutput\">\n\
+                        <div class=\"playerName\">\n\
+                            " cgidat[i] "\n\
+                        </div>\n\
+                        <table class=\"matchesTable\">\n\
+                            <tr class=\"noPointer\">\n\
+                                <th>Place</th>\n\
+                                <th>DMG</th>\n\
+                                <th>K</th>\n\
+                                <th>A</th>\n\
+                            </tr>\n"
         for(m = 0; m < match_number; m++) {
             # print matches[m]
         }
         # print "Player"
     }
-
-    print "            </div>\n\
+    print "                            <tr data-href=\"https://realmtracker.com/match/pc/34311686\">\
+                                <td>1000</td>\
+                                <td>2</td>\
+                                <td>11</td>\
+                                <td>4</td>\
+                            </tr>\
+                            <tr data-href=\"https://realmtracker.com/match/pc/34311686\">\
+                                <td>866</td>\
+                                <td>542</td>\
+                                <td>2</td>\
+                                <td>5</td>\
+                            </tr>\
+                            <tr data-href=\"https://realmtracker.com/match/pc/34311686\">\
+                                <td>643</td>\
+                                <td>86436</td\>\
+                                <td>4</td>\
+                                <td>10</td>\
+                            </tr>\
+                            <tr data-href=\"https://realmtracker.com/match/pc/34311686\">\
+                                <td>754</td>\
+                                <td>65473</td\>\
+                                <td>2</td>\
+                                <td>8</td>\
+                            </tr>\
+                        </table>\
+                    </div>"
+    print "                </div>\n\
+            </div>\n\
         </div>\n\
     </body>\n\
 </html>"
