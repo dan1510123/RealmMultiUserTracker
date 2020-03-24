@@ -57,6 +57,7 @@ BEGIN {
                 .playerName{
                 padding: 25px 8px;
                 font-weight: bold;
+                white-space: nowrap;
                 }
 
                 th, td {
