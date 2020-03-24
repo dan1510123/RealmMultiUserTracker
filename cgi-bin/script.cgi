@@ -5,68 +5,91 @@ BEGIN {
     print "<html>\n\
     <head>\n\
         <style>\n\
-            body {\n\
-                background-color: #1e1c2e;\n\
-            }\n\
-            #title{\n\
-                color: white;\n\
-                padding: 15px;\n\
-                font-size: 40px;\n\
-            }\n\
-            .fullContainer{\n\
-                font-family: Arial;\n\
-                font-size: 30px;\n\
-                color: white;\n\
-                margin: 50px 100px;\n\
-                padding: 20px 0 0 0;\n\
-                background-color: #5b5b5e;\n\
-                border-radius: 15px;\n\
-                box-sizing: border-box;\n\
-            }\n\
-            .resultsContainer{\n\
-                width: 100%;\n\
-                display: flex;\n\
-                flex-direction: row;\n\
-                flex-wrap: nowrap\n\
-            }\n\
-            .playerOutput{\n\
-                flex: 1;\n\
-                flex-basis: 1;\n\
-                background-color: #787878;\n\
-                border-radius: 15px;\n\
-                margin: 10px;\n\
-                padding: 10px;\n\
-                border: 3px solid #888888;\n\
-            }\n\
-            .matchesTable {\n\
-                font-size: 20px;\n\
-                border-collapse: collapse;\n\
-                width: 100%;\n\
-            }\n\
-            .playerName{\n\
-                padding: 10px 0;\n\
-                font-weight: bold;\n\
-            }\n\
-            th, td {\n\
-                text-align: left;\n\
-                padding: 8px;\n\
-            }\n\
-            th{\n\
-                font-weight: bold;\n\
-            }\n\
-            tr:nth-child(even){}\n\
-            th {\n\
-                background-color: #39397F;\n\
-                color: white;\n\
-            }\n\
-            tr{\n\
-                cursor: pointer;\n\
-                transition: .2s;\n\
-            }\n\
-            .noPointer{\n\
-                cursor: default;\n\
-            }\n\
-            tr:hover {background-color: #666666;}\n\
+                html{
+                height: 100%;
+                }
+
+                body {
+                height:100%;
+                background-color: #1e1c2e;
+                background-color: #151320;
+                background-color: #0f0e16;
+                color: #cccccc;
+                }
+
+                #title{
+                padding: 20px;
+                font-size: 40px;
+                border-radius: 15px 15px 0 0;
+                background-image: linear-gradient(-30deg, #1b1b1b 50%, #23235c);
+                }
+
+                .fullContainer{
+                font-family: Arial;
+                font-size: 30px;
+                margin: 50px 100px;
+                background-color: #1b1b1b;
+                border-radius: 15px;
+                box-sizing: border-box;
+                box-shadow: -7px 7px 10px rgb(0,0,0,0.8);
+                }
+
+                .resultsContainer{
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                }
+
+                .playerOutput{
+                flex: 1;
+                flex-basis: 1;
+                padding: 0 15px 15px 15px;
+                }
+
+                .matchesTable {
+                font-size: 20px;
+                border-collapse: collapse;
+                width: 100%;
+                border: 1px solid #363636;
+                }
+
+                .playerName{
+                padding: 25px 8px;
+                font-weight: bold;
+                }
+
+                th, td {
+                text-align: left;
+                padding: 8px;
+                }
+                th{
+                font-weight: normal;
+                background-color: #2f2f6a;
+                font-size: 14px;
+                }
+
+                tr:nth-child(even){
+                background-color: #262626;
+                }
+
+
+                tr:first-child{
+                border: 1px solid #363636;
+                }
+
+                tr{
+                cursor: pointer;
+                transition: .2s;
+                }
+
+                .noPointer{
+                cursor: default;
+                
+                }
+                tr:hover {background-color: #242442;}
+
+
         </style>\n\
         <script>\n\
             document.addEventListener(\"DOMContentLoaded\", () => {\n\
@@ -81,7 +104,7 @@ BEGIN {
     </head>\n\
     <body>\n\
         <div class=\"fullContainer\">\n\
-            <div id=\"title\">Realms Multi-User Tracker</div>\n\
+            <div id=\"title\">Realm Multi-User Tracker</div>\n\
                 <div class=\"resultsContainer\">\n"
 
     
