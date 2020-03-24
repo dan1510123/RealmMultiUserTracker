@@ -14,7 +14,7 @@ BEGIN {
                 background-color: #1e1c2e;
                 background-color: #151320;
                 background-color: #0f0e16;
-                color: #cccccc;
+                color: white;
                 }
 
                 #title{
